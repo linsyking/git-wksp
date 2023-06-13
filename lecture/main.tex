@@ -1,0 +1,62 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tikz}
+\definecolor{UMBlue}{RGB}{5,32,103}
+\definecolor{UMYellow}{RGB}{255,216,0}
+
+\setbeamertemplate{headline}{
+  \leavevmode%
+  \begin{minipage}{0.75\paperwidth}
+  \vspace{1.2ex}\hspace{-0.245\paperwidth}
+  \resizebox{\paperwidth}{3ex}{
+    \tikz{
+      \fill [color=UMBlue] (0,0) rectangle (10, 0.13);
+      \fill [color=UMYellow] (0,-0.1) rectangle (10, -0.18);
+    }
+  }
+  \begin{beamercolorbox}[wd=\linewidth,ht=2.5ex,dp=1.125ex]{section}
+    \insertsubsectionnavigationhorizontal{\linewidth}{}{Slide \insertpagenumber}
+  \end{beamercolorbox}
+  \end{minipage}
+  \begin{minipage}{0.23\paperwidth}
+  \hspace{0.2em}
+  \includegraphics[width=0.9\textwidth]{techji.jpg}
+  \end{minipage}
+}
+
+\setbeamercolor{title}{fg=UMBlue}
+\setbeamercolor{frametitle}{fg=UMBlue}
+\setbeamercolor{structure}{fg=UMBlue}
+
+\setbeamertemplate{navigation symbols}{}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=UMBlue,
+    filecolor=magenta,
+    urlcolor=UMBlue
+}
+
+\urlstyle{same}
+
+\AtBeginSection[]{
+    \begin{frame}{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\title{Git: Practice and Applications}
+\author{Yiming Xiang}
+\institute{UM-SJTU Joint Institute}
+\date{\today}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+    \Huge{\textcolor{UMBlue}{Thanks for listening!}}
+\end{frame}
+
+\end{document}
