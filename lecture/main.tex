@@ -3,9 +3,14 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{minted}
 \definecolor{UMBlue}{RGB}{5,32,103}
 \definecolor{UMYellow}{RGB}{255,216,0}
-
+\setminted{
+    breaklines,
+    fontsize=\footnotesize,
+    xleftmargin=0em
+}
 \setbeamertemplate{headline}{
   \leavevmode%
   \begin{minipage}{0.75\paperwidth}
@@ -41,35 +46,141 @@
 
 \urlstyle{same}
 
-\AtBeginSection[]{
-    \begin{frame}{Table of Contents}
-        \tableofcontents[currentsection]
-    \end{frame}
-}
-
 \title{Git: Practice and Applications}
 \author{Yiming Xiang}
 \institute{UM-SJTU Joint Institute}
 \date{\today}
 
+\AtBeginSection[]{
+    \begin{frame}{Table of Contents}
+        % \small
+        % \begin{multicols}{2}
+        \tableofcontents[currentsection]
+        % \end{multicols}
+    \end{frame}
+}
+
 \begin{document}
 \frame{\titlepage}
 
-\begin{frame}
-    \frametitle{Table of Contents}
-    \tableofcontents
+\begin{frame}{Before we start...}
+    We assume you:
+    \pause
+    \begin{itemize}[<+->]
+        \item have used Github or similar services before
+        \item have used Git to manage your projects
+        \item know basic git commands: \texttt{git add}, \texttt{git commit}, \texttt{git push}, \texttt{git pull}, \texttt{git clone}, \texttt{git checkout}, \texttt{git merge}
+        \item want to know more about git
+    \end{itemize}
 \end{frame}
 
-\section{Basic Concepts Review}
-
-\begin{frame}
-    \frametitle{Basic Concepts Review}
+\begin{frame}{Before we start...}
+    What you should expect in this workshop:
     \begin{itemize}
-        \item \textbf{Repository}: a collection of files and folders
-        \item \textbf{Commit}: a snapshot of the repository
-        \item \textbf{Branch}: a line of commits
-        \item \textbf{Tag}:
-        \item \textbf{Remote}: a repository on a server
+        \item A moderate understanding of Git branching
+        \item lazygit
+        \item Some advanced Git commands
+        \item Git LFS \& Git Annex
+    \end{itemize}
+
+    \pause
+
+    What you should not expect in this workshop:
+    \begin{itemize}
+        \item Why Git is better than SVN
+        \item Why should I use Github
+        \item How to use Github
+        \item How to remember Git commands
+    \end{itemize}
+\end{frame}
+
+\section{A Crash Course in Git Branching}
+
+\begin{frame}{A Simple Model of Git Commits and Branches}
+    \begin{itemize}
+        \item A \emph{commit} is a \textbf{snapshot} of your project, along with some \textbf{meta info}, including commit id, author, etc, and also \textbf{the pointer to the previous commit}, called the \emph{parent} of the commit. Note that Git only stores \textbf{pointers} to files in commits, not the files themselves.
+        \item A \emph{branch} is a \textbf{movable} pointer to a commit. Every time you commit, the branch pointer moves to the new commit.
+        \item A \emph{tag} is a \textbf{fixed} pointer to a commit.
+        \item \emph{HEAD} is a special pointer that \textbf{points to the current branch}. Checking out a branch is simply moving the HEAD pointer to another branch. You can also \emph{detach} HEAD to point to a specific commit.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Commit Calculus}
+    First, every commit has a unique ID (SHA-hash), often presented as a hexadecimal string. Usually the first 7 characters are enough to identify a commit.
+
+    \smallskip
+    \pause
+
+    Second, please remember that \textbf{commits are immutable}. Once you make a commit, Git will never change it or delete it. Moreover, remember that \textbf{commit doesn't store changes}. Commit is a snapshot. Therefore, changes are calculated by comparing two commits.
+
+    \smallskip
+    \pause
+
+    Sometimes we need to find the parent of a commit or dump the differences between two commits. Git provides the following conventions:
+    \begin{itemize}
+        \item \~{}: (linear) parent commit. \texttt{HEAD\~{}} is the parent of the current commit. \texttt{HEAD\~{}2} is the grandparent of the current commit.
+        \item \^{}: (non-linear) first parent commit. \texttt{HEAD\^{}2} is the second parent of the current commit. You can combine this with \~{} to get the second parent of the parent of the current commit.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Commit Calculus}
+    An \href{https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-rev-parse.html}{illustration} by \emph{Jon Loeliger} of the commit calculus:
+    \bigskip
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+            \begin{minted}{bash}
+G   H   I   J
+\ /     \ /
+ D   E   F
+  \  |  / \
+   \ | /   |
+    \|/    |
+     B     C
+      \   /
+       \ /
+        A
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{minted}{bash}
+A =      = A^0
+B = A^   = A^1     = A~1
+C = A^2
+D = A^^  = A^1^1   = A~2
+E = B^2  = A^^2
+F = B^3  = A^^3
+G = A^^^ = A^1^1^1 = A~3
+H = D^2  = B^^2    = A^^^2  = A~2^2
+I = F^   = B^3^    = A^^3^
+J = F^2  = B^3^2   = A^^3^2
+            \end{minted}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Three Areas}
+    Here ``area'' simply means a ``collection of files''.
+    Git manages three areas:
+    \begin{itemize}
+        \item HEAD.
+        \item Index. Proposed next commit. Also known as the \textbf{Staging Area}. When you \texttt{git add} a file, it is added to the index.
+        \item Working Directory. This is often what you see outside the \texttt{.git} folder. It makes users easier to edit files. You can think of the working directory as a sandbox where you can edit files without affecting any commits.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Workflow}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{workflow.png}
+        \caption{A typical Git workflow. \emph{Pro Git}.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{References}
+    \begin{itemize}
+        \item Pro Git. \href{https://git-scm.com/book/en/v2}{Git - Book}
+        \item Stack Overflow. \href{https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git}{What's the difference between head and head in Git?}
+        \item TheCW. \emph{Bilibili}. \href{https://www.bilibili.com/video/BV1gV411k7fC}{BV1gV411k7fC}
     \end{itemize}
 \end{frame}
 
