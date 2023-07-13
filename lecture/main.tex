@@ -176,6 +176,49 @@ J = F^2  = B^3^2   = A^^3^2
     \end{figure}
 \end{frame}
 
+\begin{frame}[fragile]{Git Reset \& Git Revert}
+    Note: Git reset is very different from Git revert.
+    In general Git revert is \textbf{safer} than Git reset.
+
+    \pause
+
+    The thumb rule is: \textbf{If a command rewrites history, it is dangerous and not recommended to do on a public branch}.
+
+    \pause
+
+    Git reset will move the branch pointer to a specific commit, and \textbf{discard all commits after that commit}. It is often used to \textbf{undo commits}.
+
+    \pause
+
+    By contrast, Git revert will create a new commit that \textbf{undoes the changes} of a specific commit. It is often used to \textbf{undo commits on a public branch}.
+
+    \pause
+    \bigskip
+
+    Revert multiple commits:
+    \begin{minted}{bash}
+git revert --no-commit HEAD~3..
+git commit -m "some msgs"
+    \end{minted}
+\end{frame}
+
+\section{lazygit}
+
+\begin{frame}{lazygit}
+    \href{https://github.com/jesseduffield/lazygit}{Lazygit} is powerful Git frontend that integrates many git commands. It is written in Go and is cross-platform.
+
+    \pause
+
+    Why lazygit?
+    \begin{itemize}
+        \item Fast
+        \item Easy to use
+        \item Powerful
+    \end{itemize}
+
+    Other alternatives are \href{https://github.com/Extrawurst/gitui}{gitui} which is written in Rust.
+\end{frame}
+
 \begin{frame}{References}
     \begin{itemize}
         \item Pro Git. \href{https://git-scm.com/book/en/v2}{Git - Book}
