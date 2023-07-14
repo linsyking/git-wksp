@@ -205,18 +205,50 @@ git commit -m "some msgs"
 \section{lazygit}
 
 \begin{frame}{lazygit}
-    \href{https://github.com/jesseduffield/lazygit}{Lazygit} is powerful Git frontend that integrates many git commands. It is written in Go and is cross-platform.
+    \href{https://github.com/jesseduffield/lazygit}{Lazygit} is a powerful Git frontend that integrates many git commands. It is written in Go and is cross-platform.
 
     \pause
 
     Why lazygit?
     \begin{itemize}
-        \item Fast
+        \item Fast, TUI
         \item Easy to use
         \item Powerful
     \end{itemize}
 
-    Other alternatives are \href{https://github.com/Extrawurst/gitui}{gitui} which is written in Rust.
+    Other alternatives are \href{https://github.com/Extrawurst/gitui}{Gitui} which is written in Rust.
+\end{frame}
+
+\begin{frame}{Tasks\footnote{Operations with * will rewrite history.}}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{itemize}
+                \item Install lazygit.
+                \item Clone your repository.
+                \item Navigate the interface (h/j/k/l/[/]).
+                \item Create/delete branches (n/d).
+                \item Checkout branches (sp).
+                \item Stage/Unstage files (a/A/sp).
+                \item Commit changes (c).
+                \item Merge branches (M).
+                \item *Rebase branches (r).
+                \item Cherry-pick (Copy/Paste) commits (c/v).
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item Undo operations (z).
+                \item Stash (s/p).
+                \item Add files to Gitignore (i).
+                \item *Delete/rename commits (d/r).
+                \item *Reset (g).
+                \item Revert (t).
+                \item Resolving merge conflict.
+                \item Custom patch (C-p).
+                \item Configure lazygit style.
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{References}
