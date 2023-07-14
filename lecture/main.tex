@@ -88,7 +88,7 @@
     What you should not expect in this workshop:
     \begin{itemize}
         \item Why Git is better than SVN
-        \item Why should I use Github
+        \item How to use Git to manage your project (such as branching strategy)
         \item How to use Github
         \item How to remember Git commands
     \end{itemize}
@@ -222,7 +222,7 @@ git commit -m "some msgs"
 \begin{frame}{Tasks\footnote{Operations with * will rewrite history.}}
     \begin{columns}
         \begin{column}{0.6\textwidth}
-            \begin{itemize}
+            \begin{itemize}[<+->]
                 \item Install lazygit.
                 \item Clone your repository.
                 \item Navigate the interface (h/j/k/l/[/]).
@@ -236,7 +236,7 @@ git commit -m "some msgs"
             \end{itemize}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{itemize}
+            \begin{itemize}[<+->]
                 \item Undo operations (z).
                 \item Stash (s/p).
                 \item Add files to Gitignore (i).
@@ -244,11 +244,70 @@ git commit -m "some msgs"
                 \item *Reset (g).
                 \item Revert (t).
                 \item Resolving merge conflict.
-                \item Custom patch (C-p).
+                \item *Custom patch (C-p).
+                \item *Squash commits (s).
+                \item Filter (C-s).
                 \item Configure lazygit style.
             \end{itemize}
         \end{column}
     \end{columns}
+\end{frame}
+
+\section{Git Worktree}
+
+\begin{frame}{Git Worktree}
+    How to work on multiple branches at the same time?
+
+    \bigskip
+
+    \pause
+
+    \textbf{Git Worktree} is a solution.
+
+    \pause
+
+    \begin{itemize}
+        \item \texttt{git worktree add <path> <branch>} creates a new worktree at \texttt{<path>} and checks out \texttt{<branch>} in it.
+        \item \texttt{git worktree list} lists all worktrees.
+        \item \texttt{git worktree remove <path>} removes a worktree.
+    \end{itemize}
+
+\end{frame}
+
+\section{Git Hooks}
+
+\begin{frame}{Git Hooks}
+    Git hooks are scripts that Git executes before or after events such as: commit, push, and receive. Git hooks are stored in \texttt{.git/hooks}.
+    \begin{itemize}
+        \item \texttt{pre-commit} is executed before a commit.
+        \item \texttt{pre-push} is executed before a push.
+        \item \texttt{post-commit} is executed after a commit.
+        \item \texttt{post-push} is executed after a push.
+        \item \texttt{commit-msg} is used to check commit message after pre-commit. Use \texttt{\$(cat "\$1")} to get the commit message.
+    \end{itemize}
+
+    \pause
+
+    \textbf{Note:} Git hooks are not pushed to the remote repository. If you want to share Git hooks, you can use Git templates or put those hooks in your project files.
+
+    \pause
+    \medskip
+
+    \textbf{Hint.} There are some tools like \href{https://typicode.github.io/husky/}{husky} and \href{https://commitlint.js.org/}{commitlint} that can help you manage Git hooks (usually in a NodeJS project because it requires NodeJS).
+\end{frame}
+
+\section{Large files in Git}
+
+\subsection{Git LFS}
+
+\begin{frame}{Git LFS}
+    
+\end{frame}
+
+\subsection{Git Annex}
+
+\begin{frame}{Git Annex}
+    
 \end{frame}
 
 \begin{frame}{References}
