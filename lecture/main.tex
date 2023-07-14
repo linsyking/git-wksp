@@ -97,7 +97,7 @@
 \section{A Crash Course in Git Branching}
 
 \begin{frame}{A Simple Model of Git Commits and Branches}
-    \begin{itemize}
+    \begin{itemize}[<+->]
         \item A \emph{commit} is a \textbf{snapshot} of your project, along with some \textbf{meta info}, including commit id, author, etc, and also \textbf{the pointer to the previous commit}, called the \emph{parent} of the commit. Note that Git only stores \textbf{pointers} to files in commits, not the files themselves.
         \item A \emph{branch} is a \textbf{movable} pointer to a commit. Every time you commit, the branch pointer moves to the new commit.
         \item A \emph{tag} is a \textbf{fixed} pointer to a commit.
@@ -182,7 +182,7 @@ J = F^2  = B^3^2   = A^^3^2
 
     \pause
 
-    The thumb rule is: \textbf{If a command rewrites history, it is dangerous and not recommended to do on a public branch}.
+    The thumb rule is: \textbf{If a command rewrites history, it is risky and not recommended to do on a public branch}.
 
     \pause
 
@@ -301,13 +301,33 @@ git commit -m "some msgs"
 \subsection{Git LFS}
 
 \begin{frame}{Git LFS}
-    
+    Usually when you clone a repository, you will download all files in the history. If you change a large file many times, your repository will become very large.
+
+    \pause
+
+    \href{https://git-lfs.com/}{Git LFS} (Large File Storage) is an open-source Git extension for versioning large files. It replaces large files with text pointers inside Git, while storing the file contents on a remote server like GitHub.
+
+    \pause
+
+    Popular Git hosting services like GitHub, Gitea and GitLab support Git LFS natively.
+
+    \pause
+
+    Another advantage is that it's easy to use. To enable LFS support after installation, just run \texttt{git lfs install} in your repository or run it in other path to enable LFS support globally.
+
+    \pause
+
+    To track files, run \texttt{git lfs track <pattern>}. For example, \texttt{git lfs track "*.png"} will track all PNG files. To untrack files, run \texttt{git lfs untrack <pattern>}.
+
+    \pause
+
+    \textbf{Note.} Though Git LFS saves space on cliens' local disk, it doesn't save space on the remote server. All the changes of the big files are stored on the remote server.
 \end{frame}
 
 \subsection{Git Annex}
 
 \begin{frame}{Git Annex}
-    
+
 \end{frame}
 
 \begin{frame}{References}
